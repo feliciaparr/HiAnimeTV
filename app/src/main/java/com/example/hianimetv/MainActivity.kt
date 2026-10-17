@@ -125,7 +125,7 @@ class MainActivity : Activity() {
     popup.settings.javaScriptEnabled = true
     popup.settings.domStorageEnabled = true
 
-    val popupDialog = android.app.Dialog(this)
+    val popupDialog = android.app.Dialog(this@MainActivity)
     popupDialog.setContentView(popup)
 
     popup.webViewClient = object : WebViewClient() {
