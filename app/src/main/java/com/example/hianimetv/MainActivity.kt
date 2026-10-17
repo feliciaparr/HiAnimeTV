@@ -183,7 +183,7 @@ class MainActivity : Activity() {
                         popupWebViews.remove(popup)
 
                         popup.webChromeClient = null
-                        popup.webViewClient = null
+                       
 
                         (popup.parent as? ViewGroup)?.removeView(popup)
                         popup.destroy()
