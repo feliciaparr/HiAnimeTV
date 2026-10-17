@@ -17,6 +17,8 @@ import android.widget.FrameLayout
 import android.graphics.Color
 import java.io.ByteArrayInputStream
 import java.util.Locale
+import android.os.Handler
+import android.os.Looper
 
 class MainActivity : Activity() {
     private lateinit var webView: WebView
@@ -112,9 +114,55 @@ class MainActivity : Activity() {
             }
 
             override fun onCreateWindow(
-                view: WebView?, isDialog: Boolean, isUserGesture: Boolean,
-                resultMsg: android.os.Message?
-            ): Boolean = false
+    view: WebView?,
+    isDialog: Boolean,
+    isUserGesture: Boolean,
+    resultMsg: android.os.Message?
+): Boolean {
+    val contextView = view ?: return false
+
+    val popup = WebView(contextView.context)
+    popup.settings.javaScriptEnabled = true
+    popup.settings.domStorageEnabled = true
+
+    val popupDialog = android.app.Dialog(this)
+    popupDialog.setContentView(popup)
+
+    popup.webViewClient = object : WebViewClient() {
+        override fun onPageFinished(
+            view: WebView?,
+            url: String?
+        ) {
+            Handler(Looper.getMainLooper()).postDelayed({
+                if (!isFinishing) {
+                    popup.stopLoading()
+                    popup.destroy()
+                    popupDialog.dismiss()
+                }
+            }, 2000)
+        }
+    }
+
+    popup.webChromeClient = WebChromeClient()
+
+    val transport = resultMsg?.obj as? WebView.WebViewTransport
+        ?: return false
+
+    transport.webView = popup
+    resultMsg.sendToTarget()
+
+    popupDialog.show()
+
+    Handler(Looper.getMainLooper()).postDelayed({
+        if (!isFinishing) {
+            if (popupDialog.isShowing) popupDialog.dismiss()
+            popup.stopLoading()
+            popup.destroy()
+        }
+    }, 2000)
+
+    return true
+}
         }
 
         if (savedInstanceState != null) webView.restoreState(savedInstanceState)
