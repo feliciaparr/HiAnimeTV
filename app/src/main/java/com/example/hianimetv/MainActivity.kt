@@ -54,8 +54,8 @@ class MainActivity : Activity() {
         s.domStorageEnabled = true
         s.databaseEnabled = true
         s.mediaPlaybackRequiresUserGesture = true
-        s.javaScriptCanOpenWindowsAutomatically = false
-        s.setSupportMultipleWindows(false)
+        s.javaScriptCanOpenWindowsAutomatically = true
+        s.setSupportMultipleWindows(true)
         s.loadsImagesAutomatically = true
         s.mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
         s.userAgentString =
