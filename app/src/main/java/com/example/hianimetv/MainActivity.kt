@@ -60,9 +60,6 @@ class MainActivity : Activity() {
         s.setSupportMultipleWindows(true)
         s.loadsImagesAutomatically = true
         s.mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
-        s.userAgentString =
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
-            "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
 
         CookieManager.getInstance().setAcceptCookie(true)
         CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true)
@@ -72,19 +69,19 @@ class MainActivity : Activity() {
                 view: WebView?, request: WebResourceRequest?
             ): Boolean = false
 
-            override fun shouldInterceptRequest(
-                view: WebView?, request: WebResourceRequest?
-            ): WebResourceResponse? {
-                val host = request?.url?.host?.lowercase(Locale.ROOT) ?: return null
-                if (blockedHosts.any { host == it || host.endsWith(".$it") }) {
-                    return WebResourceResponse(
-                        "text/plain", "UTF-8", 204, "Blocked",
-                        mapOf("Access-Control-Allow-Origin" to "*"),
-                        ByteArrayInputStream(ByteArray(0))
-                    )
-                }
-                return null
-            }
+            // override fun shouldInterceptRequest(
+            //     view: WebView?, request: WebResourceRequest?
+            // ): WebResourceResponse? {
+            //     val host = request?.url?.host?.lowercase(Locale.ROOT) ?: return null
+            //     if (blockedHosts.any { host == it || host.endsWith(".$it") }) {
+            //         return WebResourceResponse(
+            //             "text/plain", "UTF-8", 204, "Blocked",
+            //             mapOf("Access-Control-Allow-Origin" to "*"),
+            //             ByteArrayInputStream(ByteArray(0))
+            //         )
+            //     }
+            //     return null
+            // }
         }
 
         webView.webChromeClient = object : WebChromeClient() {
