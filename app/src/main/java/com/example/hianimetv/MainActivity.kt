@@ -259,7 +259,6 @@ class MainActivity : Activity() {
             try {
                 popup.stopLoading()
                 popup.webChromeClient = null
-                popup.webViewClient = null
                 (popup.parent as? ViewGroup)?.removeView(popup)
                 popup.destroy()
             } catch (_: Exception) {
