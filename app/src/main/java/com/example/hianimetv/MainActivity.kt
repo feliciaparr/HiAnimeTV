@@ -215,7 +215,7 @@ class MainActivity : Activity() {
         if (savedInstanceState != null) {
             webView.restoreState(savedInstanceState)
         } else {
-            webView.loadUrl("https://miruro.ro/")
+            webView.loadUrl("https://miruro.tv/")
         }
     }
 
